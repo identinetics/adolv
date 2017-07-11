@@ -1,6 +1,7 @@
 [MyAD]
 Host: MYAD-NAME.example.com
 Cacert: certs/my_ca_root.pem
+AltNames: *.example.com, foobar.example.com
 AdminUser: myad\Administrator
 AdminPw: a_very_secret_admin_password
 
