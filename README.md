@@ -74,10 +74,14 @@ The password of the user, returned by the search.
 
 The temporary password this user account will be changed to for testing.
 
-## Installation
+## Installation / Usage
 
 ```bash
 python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
+python adolv.py -h
 ```
+
+## Notes
+Take a look into the doc directory

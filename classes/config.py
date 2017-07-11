@@ -38,9 +38,15 @@ class TestConfig(object):
         self.test_name = test_name
         self.config_file = config_file
 
+        self.alt_names = []
         try:
             self.host = config_file.config.get(self.test_name,'Host')
             self.cacert = config_file.config.get(self.test_name, 'Cacert', fallback=None)
+            self.alt_names_txt = config_file.config.get(self.test_name, 'AltNames', fallback=None)
+            if self.alt_names_txt:
+                alt_names = self.alt_names_txt.split(',')
+                for n in alt_names:
+                    self.alt_names.append(n.strip())
             self.admin_user = config_file.config.get(self.test_name,'AdminUser')
             self.admin_pw = config_file.config.get(self.test_name,'AdminPw')
             self.test_target_base_dn = config_file.config.get(self.test_name,'BaseDn')

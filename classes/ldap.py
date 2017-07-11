@@ -91,7 +91,10 @@ class Ldap(object):
     def _test_connect(self):
 
         if self.test_config.cacert:
-            tls = ldap3.Tls(validate=ssl.CERT_REQUIRED,ca_certs_file=self.test_config.cacert)
+            tls = ldap3.Tls(
+                validate=ssl.CERT_REQUIRED,
+                ca_certs_file=self.test_config.cacert,
+                valid_names=self.test_config.alt_names)
         else:
             tls = ldap3.Tls(validate=ssl.CERT_NONE)
 
