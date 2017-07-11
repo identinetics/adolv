@@ -1,0 +1,11 @@
+[MyAD]
+Host: MYAD-NAME.example.com
+Cacert: certs/my_ca_root.pem
+AdminUser: myad\Administrator
+AdminPw: a_very_secret_admin_password
+
+BaseDn: DC=myad,DC=emp,DC=example,DC=com
+Filter: (&(objectclass=person)(sn=Foobar))
+
+UserPw: FoobarsSecretPassword
+ChangePw: MirkoS0ft
