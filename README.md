@@ -58,6 +58,13 @@ IP address or FQDN of the Microsoft Active Directory Server
 Optional parameter.
 CA certificate file in PEM encoding. If given, the SSL connection will be verified with this certificate.
 
+### AltNames
+
+Optional parameter.
+Alternative names, used to check the certificate CN against. If the connection check fails because
+certificate and hostname mismatch, you can provide this hostname here. For wildcard certificates,
+add a "*.example.com" hostname here.
+
 ### AdminUser, AdminPw
 
 Credentials of the administrative user. Adminuser can be given in the form of `<Domain>\Administrator`.
