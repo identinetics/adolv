@@ -1,8 +1,5 @@
 # ADOLV - Active Directory Over LDAP Verification
 
-:Author: Thomas Warwaris
-:Version: 0.1.0
-
 A tool to check administrative access to Microsoft Active Directory over LDAP from Linux/Python/ldap3.
 
 ## Purpose
