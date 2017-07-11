@@ -35,6 +35,20 @@ python adolv.py
 
 Configuration is given by a win.ini style file, where each section is a test and can be selected with --test, in case more than one is defined in the config file.
 
+```bash
+[MyAD]
+Host: MYAD-NAME.example.com
+Cacert: certs/my_ca_root.pem
+AdminUser: myad\Administrator
+AdminPw: a_very_secret_admin_password
+
+BaseDn: DC=myad,DC=emp,DC=example,DC=com
+Filter: (&(objectclass=person)(sn=Foobar))
+
+UserPw: FoobarsSecretPassword
+ChangePw: MirkoS0ft
+```
+
 ### Host
 
 IP address or FQDN of the Microsoft Active Directory Server
