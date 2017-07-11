@@ -39,6 +39,7 @@ Configuration is given by a win.ini style file, where each section is a test and
 [MyAD]
 Host: MYAD-NAME.example.com
 Cacert: certs/my_ca_root.pem
+AltNames: *.example.com, foobar.example.com
 AdminUser: myad\Administrator
 AdminPw: a_very_secret_admin_password
 
