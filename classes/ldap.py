@@ -2,6 +2,8 @@ import ldap3
 import ssl
 import re
 import ast
+import pprint
+import collections
 
 class LdapErrorException(Exception):
     def __init__(self, message=None, errors=None):
@@ -22,27 +24,35 @@ class TargetUser(object):
 
 
 class Ldap(object):
-    def __init__(self,test_config):
-        self.test_config = test_config
+    def __init__(self,config):
+        self.config = config
 
     def run_test(self):
         self._test_connect()
         self._test_naming_contexts()
         self._test_search_user()
-        self._test_target_user_login(password=self.test_config.test_target_user_pw, exception_prefix='first login')
+        if self.config.args.dump_entry:
+            self._dump_user_data()
+        self._test_target_user_login(password=self.config.test_config.test_target_user_pw, exception_prefix='first login')
         self._test_password_change()
-        self._test_target_user_login(password=self.test_config.test_target_tmp_pw, exception_prefix='second login')
+        self._test_target_user_login(password=self.config.test_config.test_target_tmp_pw, exception_prefix='second login')
         self._test_password_change(restore=True)
+        return
+
+    def _dump_user_data(self):
+        ordered_dict = collections.OrderedDict(self.target_user.__dict__)
+        pp = pprint.PrettyPrinter(indent=4)
+        pp.pprint(ordered_dict)
         return
 
     def _test_password_change(self, restore=False):
         dn = self.target_user.dn()
 
         if restore:
-            new_password = self.test_config.test_target_user_pw
+            new_password = self.config.test_config.test_target_user_pw
             exception_prefix = 'password restore failed: '
         else:
-            new_password = self.test_config.test_target_tmp_pw
+            new_password = self.config.test_config.test_target_tmp_pw
             exception_prefix = 'set password failed: '
 
         try:
@@ -62,8 +72,8 @@ class Ldap(object):
         return
 
     def _test_search_user(self):
-        dn = self.test_config.test_target_base_dn
-        f = self.test_config.test_target_user_filter
+        dn = self.config.test_config.test_target_base_dn
+        f = self.config.test_config.test_target_user_filter
         try:
             self.connection.search(  search_base=dn,
                           search_filter=f ,
@@ -90,16 +100,16 @@ class Ldap(object):
 
     def _test_connect(self):
 
-        if self.test_config.cacert:
+        if self.config.test_config.cacert:
             tls = ldap3.Tls(
                 validate=ssl.CERT_REQUIRED,
-                ca_certs_file=self.test_config.cacert,
-                valid_names=self.test_config.alt_names)
+                ca_certs_file=self.config.test_config.cacert,
+                valid_names=self.config.test_config.alt_names)
         else:
             tls = ldap3.Tls(validate=ssl.CERT_NONE)
 
         self.server = ldap3.Server(
-            host=self.test_config.host,
+            host=self.config.test_config.host,
             port=636,
             use_ssl=True,
             tls=tls,
@@ -107,8 +117,8 @@ class Ldap(object):
         try:
             self.connection = ldap3.Connection(
                 self.server,
-                self.test_config.admin_user,
-                password=self.test_config.admin_pw,
+                self.config.test_config.admin_user,
+                password=self.config.test_config.admin_pw,
                 auto_bind=True,
                 client_strategy=ldap3.SYNC)
         except ldap3.core.exceptions.LDAPBindError as e:
@@ -139,9 +149,9 @@ class Ldap(object):
             return False
 
     def _test_naming_contexts(self):
-        if self.test_config.test_target_base_dn not in self.server.info.naming_contexts:
+        if self.config.test_config.test_target_base_dn not in self.server.info.naming_contexts:
             r = ["the AD server does not have the naming context for {}".format(
-                self.test_config.test_target_base_dn)]
+                self.config.test_config.test_target_base_dn)]
             r.append("supported naming contexts are:")
             r = r + self.server.info.naming_contexts
             msg = "\n".join(r)

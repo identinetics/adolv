@@ -18,7 +18,7 @@ if config.args.log:
     set_library_log_detail_level(EXTENDED)
 
 try:
-    ldap = Ldap(test_config=config.test_config)
+    ldap = Ldap(config=config)
     ldap.run_test()
 except LdapErrorException as e:
     print ("ERROR: {}".format(e))

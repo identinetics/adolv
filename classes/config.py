@@ -101,6 +101,8 @@ class Config(object):
             help='selects the test in case more than one is defined in the config file')
         self.parser.add_argument('-l', '--log', dest='log', action='store_true',
             help='write a ldap log to the file "ldap.log"')
+        self.parser.add_argument('-d', '--dump-entry', dest='dump_entry', action='store_true',
+                                 help='print the person entry')
         self.parser.set_defaults(log=False)
  
     def __parse_args(self):
