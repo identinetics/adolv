@@ -57,7 +57,7 @@ IP address or FQDN of the Microsoft Active Directory Server
 ### Cacert
 
 Optional parameter.
-CA certificate file in PEM encoding. If given, the SSL connection will be verified with this certificate.
+CA certificate file, in PEM encoding, providing the CA Certificates. If given, the SSL connection will be verified with this certificate.
 
 ### AltNames
 
