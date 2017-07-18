@@ -42,6 +42,7 @@ class TestConfig(object):
         try:
             self.host = config_file.config.get(self.test_name,'Host')
             self.cacert = config_file.config.get(self.test_name, 'Cacert', fallback=None)
+            self.cacertpath = config_file.config.get(self.test_name, 'CacertPath', fallback=None)
             self.alt_names_txt = config_file.config.get(self.test_name, 'AltNames', fallback=None)
             if self.alt_names_txt:
                 alt_names = self.alt_names_txt.split(',')
