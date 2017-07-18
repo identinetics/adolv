@@ -100,13 +100,18 @@ class Ldap(object):
 
     def _test_connect(self):
 
-        if self.config.test_config.cacert:
-            tls = ldap3.Tls(
-                validate=ssl.CERT_REQUIRED,
-                ca_certs_file=self.config.test_config.cacert,
-                valid_names=self.config.test_config.alt_names)
-        else:
-            tls = ldap3.Tls(validate=ssl.CERT_NONE)
+        try:
+            if self.config.test_config.cacert or self.config.test_config.cacertpath:
+                tls = ldap3.Tls(
+                    validate=ssl.CERT_REQUIRED,
+                    ca_certs_file=self.config.test_config.cacert,
+                    ca_certs_path=self.config.test_config.cacertpath,
+                    valid_names=self.config.test_config.alt_names
+                )
+            else:
+                tls = ldap3.Tls(validate=ssl.CERT_NONE)
+        except ldap3.core.exceptions.LDAPSSLConfigurationError as e:
+            raise LdapErrorException(e)
 
         self.server = ldap3.Server(
             host=self.config.test_config.host,

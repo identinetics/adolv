@@ -54,10 +54,13 @@ ChangePw: MirkoS0ft
 
 IP address or FQDN of the Microsoft Active Directory Server
 
-### Cacert
+### Cacert, CacertDir
 
 Optional parameter.
-CA certificate file, in PEM encoding, providing the CA Certificates. If given, the SSL connection will be verified with this certificate.
+
+Cacert: CA certificate file, in PEM encoding, providing the CA Certificates. If given, the SSL connection will be verified with this certificate.
+
+CacertPath: Directory holding CA certificate files. The Directory has to contain the certs in OpenSSL hashed files. See the c_rehash command for details.
 
 ### AltNames
 
